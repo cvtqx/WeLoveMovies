@@ -20,6 +20,7 @@ function destroy(review_id){
 
 //PUT /reviews/:reviewId
 function update(updatedReview){
+    console.log(updatedReview);
     return knex("reviews")
     .select("*")
     .where({review_id: updatedReview.review_id})

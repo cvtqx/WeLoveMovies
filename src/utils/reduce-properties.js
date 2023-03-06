@@ -46,18 +46,24 @@ function reduceProperties(uniqueField, configuration) {
   return (data) => {
     const reducedData = data.reduce((accumulator, row) => {
       const key = row[uniqueField];
+      //console.log("KEY", key);
+      //console.log("ROW", row );
       const rowObject = accumulator[key] || {};
 
       const rowMapConfiguration = getRowMapConfiguration(
         configuration,
         rowObject
       );
-
+      //console.log("ROWMAPCONFIG", rowMapConfiguration);
       const rowMapper = mapProperties(rowMapConfiguration);
       accumulator[key] = lodash.merge(rowObject, rowMapper(row));
+      //console.log("ACCUMULATORKEY", accumulator[key]);
+      //console.log("ACCUMULATOR", accumulator);
+
       return accumulator;
     }, {});
-
+    //console.log("REDUCEDDATA", reducedData);
+    //console.log("VALUES", Object.values(reducedData));
     return Object.values(reducedData);
   };
 }

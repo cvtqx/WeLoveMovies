@@ -30,7 +30,7 @@ async function update(req, res){
         ...req.body.data, 
         review_id: review_id  
     };
-    
+    console.log(req.body)
     const review = await reviewsService.update(updatedReview);
     const critic = await getReviewWithCritic(review_id);
     res.json({data: {...review, ...critic}});

@@ -11,7 +11,6 @@ const reduceMovies = reduceProperties("theater_id", {
   created_at: ["movies", null, "created_at"],
   updated_at: ["movies", null, "updated_at"],
   is_showing: ["movies", null, "is_showing"],
-  theater_id: ["movies", null, "theater_id"],
 });
 
 
@@ -21,11 +20,31 @@ function list(){
     return knex("theaters as t")
         .join("movies_theaters as mt", "t.theater_id", "mt.theater_id")
         .join("movies as m", "m.movie_id", "mt.movie_id")
-        .select("t.*", "m.*")
-        .then(reduceMovies)
+        .select("*")
+        .then(reduceMovies)   
 
 }
 
+//GET /:theaterId
+
+function read(theaterId){
+  return knex("theaters")
+        .select("theater_id")
+        .where({theater_id: theaterId})
+        .first()
+}
+
+
+function create(theater){
+  return knex("theaters")
+          .insert(theater)
+          .returning("theater_id")
+          .then(createdRecord => createdRecord[0])
+}
+
 module.exports ={
-    list
+    list,
+    read, 
+    create
+   
 }
